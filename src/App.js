@@ -1,24 +1,37 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState } from "react";
+import {Route, Routes } from "react-router-dom";
+import Navbar from "./components/mainPage/Navbar";
+import MainPage from "./components/mainPage/MainPage";
+import Register from "./components/registration/Register";
+import Login from "./components/registration/Login";
+import OrderDetails from "./components/order/OrderDetails";
+import FavoriteItems from "./components/mainPage/FavoriteItems";
+import "./App.css";
+import { AuthProvider } from "./components/context/AuthProvider";
+import OrderList from "./components/order/OrderList";
 
 function App() {
+  const [orderData, setOrderData] = useState();
+  
+  const handleAddToOrder = (orderData) => {
+    setOrderData(orderData);
+  }
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div>
+      <AuthProvider>
+        <Navbar orderData={orderData} />
+          <Routes>
+            <Route path="/" element={<MainPage onAddToOrder={handleAddToOrder}/>}/>
+            <Route path="/register" element={<Register />} />
+            <Route path="/login" element={<Login/>} />
+            <Route path="/OrderDetails" element={<OrderDetails orderData={orderData} setOrderData={setOrderData}/>} />
+            <Route path="/FavoriteItems" element={<FavoriteItems />} />
+            <Route path="/OrderList" element={<OrderList/>} />
+          </Routes>
+      </AuthProvider>
     </div>
+    
   );
 }
 

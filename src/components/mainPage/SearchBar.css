@@ -1,0 +1,25 @@
+/* Add this to your CSS file or style section */
+.search-bar-container {
+    display: flex;
+    align-items: center;
+    width: 500px; 
+  }
+  
+  .search-input {
+    border: 1px solid #ccc;
+    border-radius: 20px; 
+    padding: 8px;
+    width: 80%;
+    margin-right: 5px;
+  }
+  
+  .search-button {
+    background-color: #007bff;
+    color: #fff;
+    border: none;
+    padding: 8px 15px;
+    border-radius: 40px;
+    cursor: pointer;
+    margin-bottom: 15px;
+  }
+  

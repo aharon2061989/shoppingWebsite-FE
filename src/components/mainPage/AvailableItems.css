@@ -1,0 +1,46 @@
+.grid-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; 
+  }
+  
+  .grid-item {
+    width: 300px; 
+    margin: 10px; 
+    border: 3px solid lightgray; 
+    background-color: rgb(232, 232, 232);
+  }
+  
+  .grid-item img {
+    max-width: 100%;
+    width: 300px;
+    height: 300px;
+    display: block;
+    object-fit:fill;  
+  }
+
+  h2 {
+    text-align: center;
+    font-size: xx-large;
+    font-weight: bold;
+  }
+
+  button {
+    align-self: flex-end;
+  }
+  .order-link {
+    color: black;
+  }
+
+  .grid-item a {
+    color: black;
+  }
+
+  .heart-icon:hover {
+    cursor: pointer;;
+  }
+
+  .heart-icon.active {
+    color: red;
+  }
+  
