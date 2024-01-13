@@ -11,6 +11,8 @@ function OrderDetails({ orderData, setOrderData }) {
   const [favoriteItemResponse, setFavoriteItemResponse] = useState();
   const [addedToFavoritesStatus, setAddedToFavoritesStatus] = useState([]);
   const [orderPlaced, setOrderPlaced] = useState(false);
+  const [itemNotAvailable, setItemNotAvailable] = useState(false);
+  const [canProceedWithPayment, setCanProceedWithPayment] = useState(true);
 
   useEffect(() => {
     if (orderData) {
@@ -50,12 +52,18 @@ function OrderDetails({ orderData, setOrderData }) {
   const handlePayment = async (order) => {
     const queryParams = `?Authorization=Bearer ${auth.token}`;
     const closedOrder = await placeOrder(order, queryParams);
-    setOrderPlaced(true);
+
+    if (!closedOrder) {
+      setItemNotAvailable(true);
+      setCanProceedWithPayment(false);
+    } else {
+      setOrderPlaced(true);
+    }
   };
 
   const handleToMainPage = () => {
     setOrderData(undefined);
-  }
+  };
 
   if (!orderData) {
     return (
@@ -65,8 +73,6 @@ function OrderDetails({ orderData, setOrderData }) {
       </div>
     );
   }
-
-
 
   let totalPrice = 0;
   const orderItemResponse = orderData.orderItems.map((orderItem, index) => {
@@ -117,6 +123,7 @@ function OrderDetails({ orderData, setOrderData }) {
       </div>
     );
   });
+
   if (orderPlaced === true) {
     return (
       <div>
@@ -141,9 +148,13 @@ function OrderDetails({ orderData, setOrderData }) {
               </div>
             </div>
           ))}
-          </div>
-          <Link to="/" ><button className="toMainPage" onClick={handleToMainPage}>To Main Page</button></Link>
         </div>
+        <Link to="/">
+          <button className="toMainPage" onClick={handleToMainPage}>
+            To Main Page
+          </button>
+        </Link>
+      </div>
     );
   }
 
@@ -154,21 +165,22 @@ function OrderDetails({ orderData, setOrderData }) {
         <div className="order-block">
           <h1>Order Summary</h1>
           <h3>Shipping</h3>
-
           <h3>Country: {orderData.order.shippingCountry}</h3>
           <h3>City: {orderData.order.shippingCity}</h3>
           <h3>Address: {orderData.order.shippingAddress}</h3>
           <h3 className="price">Total Price: {totalPrice}$</h3>
           <br />
-          <button
-            className="pay-button"
-            onClick={() => {
-              handlePayment(orderData.order);
-            }}>
-            Payment
-          </button>
-          <br/>
-          <Link to="/"><button className="continue-shopping">Continue Shopping</button></Link>
+          {canProceedWithPayment ? (
+            <button className="pay-button" onClick={() => handlePayment(orderData.order)}>
+              Payment
+            </button>
+          ) : (
+            <p>Sorry, one or more items in your order are currently not available.</p>
+          )}
+          <br />
+          <Link to="/">
+            <button className="continue-shopping">Continue Shopping</button>
+          </Link>
         </div>
         <div>
           <h1 className="item-header">My Products</h1>

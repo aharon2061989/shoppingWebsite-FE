@@ -42,7 +42,7 @@ function AvailableItems({ onAddToOrder }) {
     }
   };
 
-  const handleAddToOrderClick = async (item) => {
+  const handleAddToOrderClick = async (item, quantity) => {
     try {
       const response = await FindUserByUserName(auth.username);
       const userId = response.userId;
@@ -51,7 +51,7 @@ function AvailableItems({ onAddToOrder }) {
         const requestBody = {
           userId: userId,
           itemId: item.itemId,
-          quantity: 1,
+          quantity: quantity,
         };
 
         const queryParams = `?Authorization=Bearer ${auth.token}`;
@@ -111,15 +111,32 @@ function AvailableItems({ onAddToOrder }) {
                 <h3>{item.itemTitle}</h3>
                 <p>Price: {item.itemPrice} $</p>
                 <p>Available Stock: {item.stockQuantity}</p>
-                <Link
-                  to={auth && auth.token ? "/OrderDetails" : "/login"}
-                  className={`order-link`}
-                  onClick={() => {
-                    handleAddToOrderClick(item);
-                  }}
-                >
-                  Add To Cart
-                </Link>
+
+                {/* תיקן לבחירת כמות */}
+                <label htmlFor={`quantity-${item.itemId}`}>Quantity:</label>
+                <input
+                  type="number"
+                  id={`quantity-${item.itemId}`}
+                  name={`quantity-${item.itemId}`}
+                  min="1"
+                  max={item.stockQuantity}
+                  defaultValue="1"
+                />
+
+                {item.stockQuantity > 0 ? (
+                  <Link
+                    to={auth && auth.token ? "/OrderDetails" : "/login"}
+                    className={`order-link`}
+                    onClick={() => {
+                      const selectedQuantity = parseInt(document.getElementById(`quantity-${item.itemId}`).value, 10);
+                      handleAddToOrderClick(item, selectedQuantity);
+                    }}
+                  >
+                    Add To Cart
+                  </Link>
+                ) : (
+                  <p><b>Out of Stock</b></p>
+                )}
                 <br />
                 <br />
                 <FontAwesomeIcon

@@ -93,7 +93,6 @@ export const placeOrder = async (requestBody, queryParams) => {
         return orderResponse.data;
     } catch (error) {
         console.log("error place order " + error);
-        throw error;
     }
 };
 
