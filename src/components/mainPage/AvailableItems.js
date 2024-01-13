@@ -111,8 +111,6 @@ function AvailableItems({ onAddToOrder }) {
                 <h3>{item.itemTitle}</h3>
                 <p>Price: {item.itemPrice} $</p>
                 <p>Available Stock: {item.stockQuantity}</p>
-
-                {/* תיקן לבחירת כמות */}
                 <label htmlFor={`quantity-${item.itemId}`}>Quantity:</label>
                 <input
                   type="number"
