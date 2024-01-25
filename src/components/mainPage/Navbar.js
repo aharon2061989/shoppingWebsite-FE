@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useState} from "react";
 import classes from "./Navbar.module.css";
 import SearchBar from "./SearchBar";
 import { Link, useMatch, useResolvedPath } from "react-router-dom";
@@ -7,15 +7,33 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faShoppingCart } from "@fortawesome/free-solid-svg-icons";
 
 
-function Navbar() {
+function Navbar({handleSearchResultInApp, userSearchNotificationApp}) {
 
   const {auth, setAuth} = useContext(AuthContext);
+  const [searchResult, setSearchResult] = useState([]);
+  const [userSearch, setUserSearch] = useState(false);
+  const [clearSearch, setClearSearch] = useState(false);
+  
 
   const handleLogOut = () => {
     if (auth.token) {
       setAuth({ username: null, token: null, isLoggedIn: false });
     }
   }
+
+  const userSearchNotificationNavbar = (userSearch) => {
+    userSearchNotificationApp(userSearch)
+  }
+
+  const handleSearchResult = (result) => {
+    setSearchResult(result);
+    handleSearchResultInApp(result);
+  };
+
+  const clearUserSearch = () => {
+    setClearSearch(true);
+  };
+  
 
   return (
     <nav className={classes.nav}>
@@ -25,7 +43,7 @@ function Navbar() {
           src="https://img.freepik.com/free-vector/retro-football-badge-with-wings_1176-119.jpg?size=626&ext=jpg&ga=GA1.1.1947403898.1700946299&semt=ais"
           alt="logo"
         ></img>
-        <CustomLink to="/">
+        <CustomLink to="/" onClick={clearUserSearch}>
           Main Page
         </CustomLink>
         <CustomLink to={auth && auth.token ? "/OrderList": "/Login"}>
@@ -34,7 +52,7 @@ function Navbar() {
         <CustomLink to={auth && auth.token ? "/FavoriteItems": "/Login"}>
           Favorite Items
         </CustomLink>
-        <SearchBar />
+        <SearchBar userSearchNotificationNavbar={userSearchNotificationNavbar} handleSearchResult={handleSearchResult}  />       
         <CustomLink to="/login" className={classes.login} hidden={auth.isLoggedIn}>
           Login
         </CustomLink>
@@ -66,4 +84,4 @@ function CustomLink({ to, children, hidden, ...props }) {
   )
 }
 
-export default Navbar;
+export default Navbar; 

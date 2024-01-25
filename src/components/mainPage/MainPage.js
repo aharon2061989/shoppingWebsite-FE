@@ -1,21 +1,31 @@
-import React, { useState} from "react";
+import React, { useEffect, useState } from "react";
 import AvailableItems from "./AvailableItems";
 import Header from "./Header";
 
-function MainPage({onAddToOrder}) {
-    const [orderData, setOrderData] = useState({});
-  
-    const handleAddToOrder = (orderData) => {
-        onAddToOrder(orderData);
-        setOrderData(orderData);
-    };
+function MainPage({ onAddToOrder, searchResults, userSearch}) {
+  const [orderData, setOrderData] = useState({});
+  const [searchResult, setSearchResult] = useState([]);
+  const [clearSearch, setClearSearch] = useState(false);
 
-    return (
-      <div>
-        <Header />
-        <AvailableItems onAddToOrder={handleAddToOrder} />
-      </div>
-    );
-  }
-  
-  export default MainPage;
+  useEffect(() => {
+    setSearchResult(searchResults)
+  }, [searchResults, userSearch])
+
+  const handleAddToOrder = (orderData) => {
+    onAddToOrder(orderData);
+    setOrderData(orderData);
+  };
+
+  return (
+    <div>
+      <Header />
+      <AvailableItems
+        onAddToOrder={handleAddToOrder}
+        searchResult={searchResult}
+        userSearch={userSearch}
+      />
+    </div>
+  );
+}
+
+export default MainPage;

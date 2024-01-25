@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useState } from "react";
 import "./OrderDetails.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faTrashCan } from "@fortawesome/free-regular-svg-icons";
@@ -13,13 +13,6 @@ function OrderDetails({ orderData, setOrderData }) {
   const [orderPlaced, setOrderPlaced] = useState(false);
   const [itemNotAvailable, setItemNotAvailable] = useState(false);
   const [canProceedWithPayment, setCanProceedWithPayment] = useState(true);
-
-  useEffect(() => {
-    if (orderData) {
-      const initialStatus = orderData.orderItems.map(() => false);
-      setAddedToFavoritesStatus(initialStatus);
-    }
-  }, [orderData]);
 
   const handleTrashIconClick = async (userId, itemId, quantity) => {
     const requestBody = {
@@ -149,10 +142,8 @@ function OrderDetails({ orderData, setOrderData }) {
             </div>
           ))}
         </div>
-        <Link to="/">
-          <button className="toMainPage" onClick={handleToMainPage}>
-            To Main Page
-          </button>
+        <Link to="/" onClick={handleToMainPage} className="toMainPage">
+          To Main Page
         </Link>
       </div>
     );

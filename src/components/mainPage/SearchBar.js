@@ -1,12 +1,36 @@
 import React, { useState } from "react";
 import "../mainPage/SearchBar.css";
+import { searchItems } from "../../services/api";
 
-function SearchBar({ onSearch }) {
+function SearchBar({handleSearchResult, userSearchNotificationNavbar}) {
   const [searchTerm, setSearchTerm] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [userSearch, setUserSearch] = useState(false)
 
-  const handleSearch = () => {
-    onSearch(searchTerm);
+  const handleSearch = async () => {
+    try {
+      const capitalizedSearchTerm = capitalizeFirstLetter(searchTerm);
+      const result = await searchItems(capitalizedSearchTerm);
+      setSearchResults(result);
+      handleSearchResult(result);
+    } catch (error) {
+      console.error("Error searching items:", error);
+      setSearchResults([]);
+      handleSearchResult([])
+    }
+    finally {
+      setUserSearch(false);
+    }
   };
+
+  const capitalizeFirstLetter = (string) => {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  };
+
+  const userSearchNotification = () => {
+    setUserSearch(true);
+    userSearchNotificationNavbar(true);
+  }
 
   return (
     <div className="search-bar-container">
@@ -17,7 +41,9 @@ function SearchBar({ onSearch }) {
         value={searchTerm}
         onChange={(e) => setSearchTerm(e.target.value)}
       />
-      <button type="submit" className="search-button" onClick={handleSearch}>Search</button>
+      <button className="search-button" onClick={() => { handleSearch(); userSearchNotification(); }}>
+        Search
+      </button>
     </div>
   );
 }

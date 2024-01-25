@@ -12,6 +12,7 @@ const DELETE_FAVORITE_ITEM = (favoriteItemId) => `favorite-item/delete/${favorit
 const PLACE_ORDER = () => `order/place-order`;
 const DELETE_ORDER = (orderId) => `order/delete/${orderId}`;
 const GET_ALL_ORDERS = (userId) => `order/full-order-list/${userId}`;
+const SEARCH_ITEMS = () => `item/search-items`;
 
 export const createNewUser = (userBody) => {
     return axios.post(CREATE_NEW_USER(), userBody);
@@ -73,9 +74,9 @@ export const addToFavoriteItems = async (requestBody, queryParams) => {
     }
 };
 
-export const getAllFavoriteItems = async (userId, queryParams) => {
+export const getAllFavoriteItems = async (userId) => {
     try {
-        const response = await axios.get(GET_ALL_FAVORITE_ITEMS(userId) + queryParams);
+        const response = await axios.get(GET_ALL_FAVORITE_ITEMS(userId));
         return response.data;
     } catch (error) {
         console.log("error get al favorite items " + error);
@@ -106,6 +107,16 @@ export const userAllOrders = async (userId, queryParams) => {
         return response.data; 
     } catch (error) {
         console.error("Error getting all orders: " + error);
+        throw error;
+    }
+};
+
+export const searchItems = async (searchTerm) => {
+    try {
+        const response = await axios.get(SEARCH_ITEMS() + `?searchTerm=${searchTerm}`);
+        return response.data;
+    } catch (error) {
+        console.error("Error searching items:", error);
         throw error;
     }
 };

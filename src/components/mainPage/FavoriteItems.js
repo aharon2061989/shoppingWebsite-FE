@@ -9,20 +9,23 @@ function FavoriteItems() {
     const {auth} = useContext(AuthContext);
     const [favoriteItems, setFavoriteItems] = useState([]);
 
-    useEffect(() => {
-        getFavoriteItems();
-    }, [auth.token]);
+    
 
+    useEffect(() => {
+        if(auth.token!== undefined){
+            getFavoriteItems();
+        }
+    });
+    
     const getFavoriteItems = async () => {
+    try {
         const user = await FindUserByUserName(auth.username);
         const userId = user.userId;
-        const queryParams = `?Authorization=Bearer ${auth.token}`;
-        try {
-            const items = await getAllFavoriteItems(userId, queryParams);
-            setFavoriteItems(items);
-        } catch (error) {
-            console.error('Error fetching favorite items:', error);
-        }
+        const items = await getAllFavoriteItems(userId);
+        setFavoriteItems(items);
+    } catch (error) {
+        console.error('Error fetching favorite items:', error);
+    }
     };
 
     const handleDelete = async (favoriteItemId) => {
