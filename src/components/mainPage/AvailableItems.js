@@ -18,7 +18,6 @@ function AvailableItems({ onAddToOrder, searchResult, userSearch}) {
   useEffect(() => {
     setSearchResults(searchResult)
     setIsUserSearch(userSearch);
-    console.log(isUserSearch, "in available!!!")
   }, [searchResult, userSearch])
 
   useEffect(() => {

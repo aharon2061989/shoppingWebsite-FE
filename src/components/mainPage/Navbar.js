@@ -12,8 +12,7 @@ function Navbar({handleSearchResultInApp, userSearchNotificationApp}) {
   const {auth, setAuth} = useContext(AuthContext);
   const [searchResult, setSearchResult] = useState([]);
   const [userSearch, setUserSearch] = useState(false);
-  const [clearSearch, setClearSearch] = useState(false);
-  
+  const [clearSearch, setClearSearch] = useState(false);  
 
   const handleLogOut = () => {
     if (auth.token) {
@@ -52,14 +51,14 @@ function Navbar({handleSearchResultInApp, userSearchNotificationApp}) {
         <CustomLink to={auth && auth.token ? "/FavoriteItems": "/Login"}>
           Favorite Items
         </CustomLink>
-        <SearchBar userSearchNotificationNavbar={userSearchNotificationNavbar} handleSearchResult={handleSearchResult}  />       
+        <SearchBar userSearchNotificationNavbar={userSearchNotificationNavbar} handleSearchResult={handleSearchResult} />       
         <CustomLink to="/login" className={classes.login} hidden={auth.isLoggedIn}>
           Login
         </CustomLink>
-        <CustomLink to="/register" className={classes.register} hidden={auth.isLoggedIn}>
+        <CustomLink to="/register" className={classes.register} hidden={auth.isLoggedIn} >
           Register
         </CustomLink>
-        <CustomLink to="/logout" className={classes.logout} onClick={handleLogOut}>
+        <CustomLink to="/" className={classes.logout} onClick={handleLogOut} hidden={!auth.isLoggedIn}>
           Log Out
         </CustomLink>
         <CustomLink to="OrderDetails" className={classes.cartLink}>
@@ -71,7 +70,7 @@ function Navbar({handleSearchResultInApp, userSearchNotificationApp}) {
   );
 }
 
-function CustomLink({ to, children, hidden, ...props }) {
+function CustomLink({ to, children, hidden, userLogOut, ...props }) {
   const resolvedPath = useResolvedPath(to);
   const isActive = useMatch({ path: resolvedPath.pathname, end: true });
 

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import "./OrderDetails.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart, faTrashCan } from "@fortawesome/free-regular-svg-icons";
@@ -6,7 +6,7 @@ import AuthContext from "../context/AuthProvider";
 import { addToFavoriteItems, placeOrder, removeItemFromOrder } from "../../services/api";
 import { Link } from "react-router-dom";
 
-function OrderDetails({ orderData, setOrderData }) {
+function OrderDetails({ orderData, setOrderData, handleLogOut}) {
   const { auth } = useContext(AuthContext);
   const [favoriteItemResponse, setFavoriteItemResponse] = useState();
   const [addedToFavoritesStatus, setAddedToFavoritesStatus] = useState([]);
