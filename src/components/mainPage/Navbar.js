@@ -70,7 +70,7 @@ function Navbar({handleSearchResultInApp, userSearchNotificationApp}) {
   );
 }
 
-function CustomLink({ to, children, hidden, userLogOut, ...props }) {
+function CustomLink({ to, children, hidden, ...props }) {
   const resolvedPath = useResolvedPath(to);
   const isActive = useMatch({ path: resolvedPath.pathname, end: true });
 

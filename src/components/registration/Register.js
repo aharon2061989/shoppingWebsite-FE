@@ -251,7 +251,6 @@ function Register(){
                 <p>
                     Already registered?<br />
                     <span className={classes.line}>
-                    {/*put router link here*/}
                         <Link to={"/login"}>Sign In</Link>
                     </span>
                 </p>
