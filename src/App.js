@@ -28,6 +28,11 @@ function App() {
     setUserSearch(userSearch);
   }
 
+  const clearSearchInApp = () => {
+    setSearchResults([]);
+    setUserSearch(false)
+  }
+
   return (
     <div>
       <AuthProvider>

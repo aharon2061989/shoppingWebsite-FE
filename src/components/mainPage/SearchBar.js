@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import "../mainPage/SearchBar.css";
 import { searchItems } from "../../services/api";
 
@@ -6,6 +6,11 @@ function SearchBar({handleSearchResult, userSearchNotificationNavbar}) {
   const [searchTerm, setSearchTerm] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [userSearch, setUserSearch] = useState(false)
+
+  useEffect(() => {
+    setSearchResults([]);
+  }, [searchTerm === ""]);
+  
 
   const handleSearch = async () => {
     try {
@@ -20,6 +25,7 @@ function SearchBar({handleSearchResult, userSearchNotificationNavbar}) {
     }
     finally {
       setUserSearch(false);
+      setSearchTerm("")
     }
   };
 
@@ -31,6 +37,11 @@ function SearchBar({handleSearchResult, userSearchNotificationNavbar}) {
     setUserSearch(true);
     userSearchNotificationNavbar(true);
   }
+
+  useEffect(() => {
+    setSearchResults([]);
+  }, [searchTerm]);
+  
 
   return (
     <div className="search-bar-container">

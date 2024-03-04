@@ -2,17 +2,17 @@ import {axiosInstance as axios} from './axiosInstance'
 
 const CREATE_NEW_USER = () => `api/public/CustomUser/create`;
 const AUTHENTICATE = () => `api/public/authenticate`;
-const AVAILABEL_ITEMS = () => 'item/all-items';
-const ADD_ITEM_TO_ORDER = () => `order/add-to-order`;
+const AVAILABEL_ITEMS = () => 'item/allItems';
+const ADD_ITEM_TO_ORDER = () => `order/addToOrder`;
 const FIND_USER = (username) => `api/public/CustomUser/findUser/${username}`;
-const REMOVE_ITEM_FROM_ORDER = () => `order/remove-from-order`;
-const ADD_TO_FAVORITE = () => `favorite-item/create`;
-const GET_ALL_FAVORITE_ITEMS = (userId) => `favorite-item/all-favorite-items/${userId}`;
-const DELETE_FAVORITE_ITEM = (favoriteItemId) => `favorite-item/delete/${favoriteItemId}`;
-const PLACE_ORDER = () => `order/place-order`;
+const REMOVE_ITEM_FROM_ORDER = () => `order/removeFromOrder`;
+const ADD_TO_FAVORITE = () => `favoriteItem/create`;
+const GET_ALL_FAVORITE_ITEMS = (userId) => `favoriteItem/allFavoriteItems/${userId}`;
+const DELETE_FAVORITE_ITEM = (favoriteItemId) => `favoriteItem/delete/${favoriteItemId}`;
+const PLACE_ORDER = () => `order/placeOrder`;
 const DELETE_ORDER = (orderId) => `order/delete/${orderId}`;
-const GET_ALL_ORDERS = (userId) => `order/full-order-list/${userId}`;
-const SEARCH_ITEMS = () => `item/search-items`;
+const GET_ALL_ORDERS = (userId) => `order/fullOrderList/${userId}`;
+const SEARCH_ITEMS = () => `item/searchItems`;
 
 export const createNewUser = (userBody) => {
     return axios.post(CREATE_NEW_USER(), userBody);
@@ -74,9 +74,9 @@ export const addToFavoriteItems = async (requestBody, queryParams) => {
     }
 };
 
-export const getAllFavoriteItems = async (userId) => {
+export const getAllFavoriteItems = async (userId, queryParams) => {
     try {
-        const response = await axios.get(GET_ALL_FAVORITE_ITEMS(userId));
+        const response = await axios.get(GET_ALL_FAVORITE_ITEMS(userId) + queryParams);
         return response.data;
     } catch (error) {
         console.log("error get al favorite items " + error);

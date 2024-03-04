@@ -21,7 +21,8 @@ function FavoriteItems() {
     try {
         const user = await FindUserByUserName(auth.username);
         const userId = user.userId;
-        const items = await getAllFavoriteItems(userId);
+        const queryParams = `?Authorization=Bearer ${auth.token}`;
+        const items = await getAllFavoriteItems(userId, queryParams);
         setFavoriteItems(items);
     } catch (error) {
         console.error('Error fetching favorite items:', error);

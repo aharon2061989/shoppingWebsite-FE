@@ -16,6 +16,11 @@ function MainPage({ onAddToOrder, searchResults, userSearch}) {
     setOrderData(orderData);
   };
 
+  const clearUserSearch = () => {
+    setSearchResult([])
+    setClearSearch(true);
+  }
+
   return (
     <div>
       <Header />
@@ -23,6 +28,7 @@ function MainPage({ onAddToOrder, searchResults, userSearch}) {
         onAddToOrder={handleAddToOrder}
         searchResult={searchResult}
         userSearch={userSearch}
+        clearUserSearch = {clearUserSearch}
       />
     </div>
   );

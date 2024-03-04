@@ -7,7 +7,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-regular-svg-icons";
 import { faHeart as faHeartSolid } from "@fortawesome/free-solid-svg-icons";
 
-function AvailableItems({ onAddToOrder, searchResult, userSearch}) {
+function AvailableItems({ onAddToOrder, searchResult, userSearch, clearUserSearch}) {
   const [items, setItems] = useState([]);
   const { auth } = useContext(AuthContext);
   const [orderResponse, setOrderResponse] = useState(null);
